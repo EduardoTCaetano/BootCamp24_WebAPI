@@ -2,6 +2,9 @@
 using BootCamp_WebAPI.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BootCamp_WebAPI.Controllers
 {
@@ -22,6 +25,7 @@ namespace BootCamp_WebAPI.Controllers
             return await _context.products.ToListAsync();
         }
 
+        // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(Guid id)
         {
@@ -35,6 +39,7 @@ namespace BootCamp_WebAPI.Controllers
             return product;
         }
 
+        // POST: api/Products
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
@@ -44,12 +49,13 @@ namespace BootCamp_WebAPI.Controllers
             return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
         }
 
+        // PUT: api/Products/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(Guid id, Product product)
         {
             if (id != product.Id)
             {
-                return BadRequest();
+                return BadRequest("The ID in the URL does not match the ID in the request body.");
             }
 
             _context.Entry(product).State = EntityState.Modified;
@@ -73,6 +79,7 @@ namespace BootCamp_WebAPI.Controllers
             return NoContent();
         }
 
+        // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
